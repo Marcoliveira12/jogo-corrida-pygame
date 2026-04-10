@@ -1,15 +1,15 @@
-# 🏎️ Jogo de Corrida - Computação Gráfica
+# Jogo de Corrida - Computação Gráfica
 
 Projeto desenvolvido em Python utilizando Pygame, com foco em conceitos de computação gráfica.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 - Movimentação de carros
 - Sistema de pista
 - Linha de chegada
 - Uso de imagens (sprites)
 - Aplicação de transformações geométricas
 
-## 🛠️ Tecnologias
+## Tecnologias
 - Python
 - Pygame
 
