@@ -1,19 +1,39 @@
-# Jogo de Corrida - Computação Gráfica
+# 🏎️ Jogo de Corrida - Computação Gráfica
 
-Projeto desenvolvido em Python utilizando Pygame, com foco em conceitos de computação gráfica.
+Projeto desenvolvido na disciplina de Computação Gráfica com o objetivo de aplicar, na prática, transformações geométricas em um jogo interativo.
 
-## Funcionalidades
-- Movimentação de carros
-- Sistema de pista
-- Linha de chegada
-- Uso de imagens (sprites)
-- Aplicação de transformações geométricas
+---
 
-## Tecnologias
-- Python
-- Pygame
+## 🎯 Objetivo
 
-## ▶️ Como executar
-1. Instale o Python
-2. Instale o Pygame
-3. Execute o jogo
+Aplicar conceitos como:
+- Translação  
+- Rotação  
+- Escala  
+- Reflexão  
+
+---
+
+## ⚙️ Aplicação no Projeto
+
+- **Translação:** movimentação do carro  
+- **Rotação:** orientação do veículo  
+- **Escala:** ajuste de tamanho dos elementos  
+- **Reflexão:** espelhamento de sprites  
+
+---
+
+## 🛠️ Tecnologias
+
+- Python  
+- Pygame  
+
+---
+
+## 👩‍🏫 Docente
+
+Prof.ª Suzana Sousa  
+
+
+
+
