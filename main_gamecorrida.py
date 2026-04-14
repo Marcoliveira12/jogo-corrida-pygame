@@ -59,9 +59,9 @@ altura_carro = int(altura_original * escala)
 
 # ==============================
 # CONFIGURAÇÃO DO JOGADOR (CARRO)
-# ==============================w
+# ==============================
 carro_x = largura //2 + 100
-carro_y = pista[-1][1] + 50
+carro_y = pista[-1][1] - 5
 
 # Controle de deslocamento do mapa (simula movimento)
 mapa_x = 0
@@ -83,7 +83,7 @@ flip_y = False
 # ==============================
 # Posição inicial do inimigo
 inimigo_x = largura // 2 - 100
-inimigo_y = pista[-1][1] + 50
+inimigo_y = pista[-1][1] - 5
 
 velocidade_inimigo = 7.5
 
@@ -114,11 +114,11 @@ def resetar_jogo():
 
     # Reinicia posição do jogador (igual ao início do jogo)
     carro_x = largura //2 + 100
-    carro_y = pista[-1][1] + 50
+    carro_y = pista[-1][1] -5 
 
     # Reinicia posição do inimigo (igual ao início do jogo)
     inimigo_x = largura // 2 - 100
-    inimigo_y = pista[-1][1] + 50
+    inimigo_y = pista[-1][1] -5
 
 
 # Armazena quem venceu a corrida
