@@ -12,7 +12,7 @@ largura = 800
 altura = 600
 
 tela = pygame.display.set_mode((largura, altura))
-pygame.display.set_caption("FORÇA HORIZONTAL")
+pygame.display.set_caption("FORSA HORIZONTE")
 
 
 
@@ -41,9 +41,9 @@ for i in range(50):  # quantidade de blocos (tamanho da pista)
 carro_img = pygame.image.load("assets/carro.png")
 escala_carro = 0.1
 
-# Imagem do inimigo
+# Imagem do inimigowwwwwd
 inimigo_img_original = pygame.image.load("assets/carro_inimigo.png")
-escala_inimigo = 0.2
+escala_inimigo = 0.22
 
 
 # ================== DIMENSÕES E ESCALA ==================
@@ -59,8 +59,8 @@ altura_carro = int(altura_original * escala)
 
 # ==============================
 # CONFIGURAÇÃO DO JOGADOR (CARRO)
-# ==============================
-carro_x = largura //2
+# ==============================w
+carro_x = largura //2 + 100
 carro_y = pista[-1][1] + 50
 
 # Controle de deslocamento do mapa (simula movimento)
@@ -82,17 +82,17 @@ flip_y = False
 # CONFIGURAÇÃO DO INIMIGO
 # ==============================
 # Posição inicial do inimigo
-inimigo_x = largura // 2 + 50
-inimigo_y = pista[-1][1] + 100
+inimigo_x = largura // 2 - 100
+inimigo_y = pista[-1][1] + 50
 
-velocidade_inimigo = 7
+velocidade_inimigo = 7.5
 
 
 # ==============================
 # FUNÇÃO DE RESET DO JOGO
 # ==============================
 def resetar_jogo():
-    global carro_x, carro_y, inimigo_x, inimigo_y, angulo, vencedor
+    global carro_x, carro_y, inimigo_x, inimigo_y, angulo, vencedor, estado_jogo, tempo_contagem
 
     # Reinicia posição do jogador
     carro_x = largura // 2
@@ -108,12 +108,28 @@ def resetar_jogo():
     # Reinicia estado do jogo
     vencedor = None
 
+    # começa direto na contagem ao reiniciar
+    estado_jogo = "contagem"
+    tempo_contagem = pygame.time.get_ticks()
+
+    # Reinicia posição do jogador (igual ao início do jogo)
+    carro_x = largura //2 + 100
+    carro_y = pista[-1][1] + 50
+
+    # Reinicia posição do inimigo (igual ao início do jogo)
+    inimigo_x = largura // 2 - 100
+    inimigo_y = pista[-1][1] + 50
+
 
 # Armazena quem venceu a corrida
 vencedor = None  # Pode ser "player" ou "inimigo"
 
 
 clock = pygame.time.Clock() #Controle de FPS
+
+# ================== CONTROLE DE ESTADO DO JOGO ==================
+estado_jogo = "inicio"  # pode ser: inicio, contagem, jogando
+tempo_contagem = 0
 
 
 while True:
@@ -129,6 +145,11 @@ while True:
             if event.key == pygame.K_r and vencedor is not None:
                 resetar_jogo()
 
+            # iniciar jogo ao apertar espaço
+            if event.key == pygame.K_SPACE and estado_jogo == "inicio":
+                estado_jogo = "contagem"
+                tempo_contagem = pygame.time.get_ticks()
+
             
             # TRANSFORMAÇÃO: FLIP (espelhamento da imagem)
             if event.key == pygame.K_f:
@@ -142,8 +163,17 @@ while True:
     # ================== ENTRADA CONTÍNUA =================
     teclas = pygame.key.get_pressed()
 
+    # ================== SISTEMA DE CONTAGEM ==================
+    if estado_jogo == "contagem":
+        tempo_atual = pygame.time.get_ticks()
+        tempo_passado = (tempo_atual - tempo_contagem) // 1000
+
+        # depois de 4 segundos começa o jogo
+        if tempo_passado >= 4:
+            estado_jogo = "jogando"
+
     # ================== MOVIMENTO DO JOGADOR ==================
-    if vencedor is None:
+    if vencedor is None and estado_jogo == "jogando":
 
 
          # TRANSFORMAÇÃO: TRANSLAÇÃO (movimento baseado no ângulo)
@@ -168,7 +198,7 @@ while True:
 
 
     # ================== IA DO INIMIGO ==================
-    if vencedor is None:
+    if vencedor is None and estado_jogo == "jogando":
         
 
 
@@ -177,7 +207,7 @@ while True:
 
 
         # centralização na pista
-        centro_pista = 200 + 400 // 2
+        centro_pista = 200 + 200 // 2
 
         if inimigo_x < centro_pista:
             inimigo_x += 2
@@ -205,7 +235,7 @@ while True:
     clock.tick(60) #limitador de fps
 
     # TRANSFORMAÇÃO: TRANSLAÇÃO (câmera acompanha o carro)
-    camera_x = carro_x - (largura // 2) / escala
+    camera_x = carro_x - (x_pista + largura_pista / 2) / escala 
     camera_y = carro_y - (altura // 2) / escala
 
 
@@ -218,7 +248,7 @@ while True:
             dentro_da_pista = True
 
     if not dentro_da_pista:
-        velocidade = velocidade_base * 2  # reduz fora da pista
+        velocidade = velocidade_base * 0.5  # reduz fora da pista
     else:
         velocidade = velocidade_base
 
@@ -443,6 +473,48 @@ while True:
 
         tela.blit(texto, rect_texto)
         tela.blit(texto_reiniciar, rect_reiniciar)
+
+    # ================== TELA INICIAL E CONTAGEM ==================
+    fonte_grande = pygame.font.SysFont(None, 80)
+    
+    # fundo escuro (overlay)
+    # ================== OVERLAY (FUNDO ESCURO CONTROLADO) ==================
+    # aparece no início e na contagem (3,2,1), mas SOME no GO
+    if estado_jogo == "inicio" or (estado_jogo == "contagem" and tempo_passado < 3):
+        overlay = pygame.Surface((largura, altura))
+        overlay.set_alpha(180)
+        overlay.fill((0, 0, 0))
+        tela.blit(overlay, (0, 0))
+
+    # TELA INICIAL
+    if estado_jogo == "inicio":
+        texto1 = fonte_grande.render("Pressione ESPAÇO", True, (255, 255, 255))
+        texto2 = fonte_grande.render("para iniciar", True, (255, 255, 255))
+        rect1 = texto1.get_rect(center=(largura//2, altura//2 - 60 ))
+        rect2 = texto2.get_rect(center=(largura//2, altura//2 ))
+
+        tela.blit(texto1, rect1)
+        tela.blit(texto2, rect2)
+
+    # CONTAGEM
+    elif estado_jogo == "contagem":
+
+        if tempo_passado == 0:
+            msg = "3"
+        elif tempo_passado == 1:
+            msg = "2"
+        elif tempo_passado == 2:
+            msg = "1"
+        else:
+            msg = "GO!"
+
+        fonte_contagem = pygame.font.SysFont(None, 150)
+
+        cor = (0, 255, 0) if msg == "GO!" else (255, 255, 255)
+
+        texto = fonte_contagem.render(msg, True, cor) 
+        rect = texto.get_rect(center=(largura//2, altura//2 - 120))
+        tela.blit(texto, rect)
 
 
     pygame.display.update()
